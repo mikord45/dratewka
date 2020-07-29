@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        @font-face {
+            font-family: StartFont;
+            src: url("fonts/PressStart2P.ttf")
+        }
+
+        body {
+            background: grey;
+            font-family: StartFont;
+            font-size: 15px;
+        }
+
+        input {
+            float: left;
+            margin: 16px;
+            background-color: grey;
+            border-width: 0px;
+            outline: none;
+            font-family: StartFont;
+        }
+
+        #who {
+            width: 135px;
+            float: left;
+        }
+
+        #boxForExplanation {
+            width: 700px;
+        }
+
+        #explanation {
+            display: inline-block;
+        }
+
+        #kompas {
+            margin-bottom: 10px;
+        }
+
+        #allPictures {
+            position: relative;
+        }
+    </style>
+    <script>
+        function _Location(t, p, b, west, east, north, south, items) {
+            this.t = t;
+            this.p = p;
+            this.b = b;
+            this.east = east;
+            this.west = west;
+            this.north = north;
+            this.south = south;
+            this.items = items
+        }
+
+        function _Items(id, Aname, move, name) {
+            this.id = id
+            this.Aname = Aname
+            this.move = move
+            this.name = name
+        }
+
+
+        document.addEventListener("DOMContentLoaded", function (event) {
+            game = {
+                board: [
+                    [new _Location("You are inside a brimstone mine", "11.gif", "rgb(235,211,64)", false, true, false, false, []), new _Location("You are at the entrance to the mine", "12.gif", "rgb(89,93,87)", true, true, false, false, []), new _Location("A hill", "13.gif", "rgb(117,237,243)", true, true, false, true, [new _Items(31, "a STONE ", true, "STONE")]), new _Location("Some bushes", "14.gif", "rgb(202,230,51)", true, true, false, false, []), new _Location("An old deserted hut", "15.gif", "rgb(220,204,61)", true, true, false, false, [new _Items(27, "a BUCKET ", true, "BUCKET")]), new _Location("The edge of a forest", "16.gif", "rgb(167,245,63)", true, true, false, false, []), new _Location("A dark forest", "17.gif", "rgb(140,253,99)", true, false, false, true, [new _Items(14, "MUSHROOMS ", true, "MUSHROOMS")])],
+                    [new _Location("A man nearby making tar", "21.gif", "rgb(255,190,99)", false, true, false, true, []), new _Location("A timber yard", "22.gif", "rgb(255,190,99)", true, true, false, true, []), new _Location("You are by a roadside shrine", "23.gif", "rgb(167,245,63)", true, true, true, true, [new _Items(10, "a KEY ", true, "KEY")]), new _Location("You are by a small chapel", "24.gif", "rgb(212,229,36)", true, true, false, false, []), new _Location("You are on a road leading to a wood", "25.gif", "rgb(167,245,63)", true, true, false, true, []), new _Location("You are in a forest", "26 i 65.gif", "rgb(167,245,63)", true, true, false, false, []), new _Location("You are in a deep forest", "27 i 67.gif", "rgb(140,253,99)", true, false, true, false, [new _Items(18, "BERRIES ", true, "BERRIES")])],
+                    [new _Location("You are by the Vistula River", "31.gif", "rgb(122,232,252)", false, true, true, false, []), new _Location("You are by the Vistula River", "32.gif", "rgb(140,214,255)", true, false, true, false, [new _Items(32, "a FISH ", true, "FISH")]), new _Location("You are on a bridge over river", "33.gif", "rgb(108,181,242)", false, false, true, true, []), new _Location("You are by the old tavern", "34.gif", "rgb(255,189,117)", false, true, false, false, []), new _Location("You are at the town's end", "35.gif", "rgb(255,190,99)", true, false, true, true, []), new _Location("You are in a butcher's shop", "36.gif", "rgb(255,188,102)", false, false, false, true, []), new _Location("You are in a cooper's house", "37.gif", "rgb(255,188,102)", false, false, false, true, [])],
+                    [new _Location("You are in the Wawel Castle", "41.gif", "rgb(255,176,141)", false, false, false, false, []), new _Location("You are inside a dragon's cave", "42.gif", "rgb(198,205,193)", false, true, false, false, []), new _Location("A perfect place to set a trap", "43.gif", "rgb(255,176,141)", true, false, true, false, []), new _Location("You are by the water mill", "44.gif", "rgb(255,190,99)", false, true, false, false, [new _Items(21, "a BAG ", true, "BAG")]), new _Location("You are at a main crossroad", "45.gif", "rgb(255,190,99)", true, true, true, true, []), new _Location("You are on a town street", "46.gif", "rgb(255,190,99)", true, true, true, false, []), new _Location("You are in a frontyard of your house", "47.gif", "rgb(255,190,99)", true, false, true, true, [])],
+                    [new _Location("You are by a swift stream", "54.gif", "rgb(108,181,242)", false, true, false, false, []), new _Location("You are on a street leading forest", "55.gif", "rgb(255,190,99)", true, false, true, true, [new _Items(33, "a KNIFE ", true, "KNIFE")]), new _Location("You are in a woodcutter's backyard", "56.gif", "rgb(255,190,99)", false, false, false, true, []), new _Location("You are in a shoemaker's house", "57.gif", "rgb(254,194,97)", false, false, true, false, [])],
+                    [new _Location("You are in a bleak funeral house", "64.gif", "rgb(254,194,97)", false, true, false, false, [new _Items(24, "a SPADE ", true, "SPADE")]), new _Location("You are on a path leading to the wood", "26 i 65.gif", "rgb(167,245,63)", true, true, true, false, []), new _Location("You are at the edge of a forest", "66.gif", "rgb(167,245,63)", true, true, true, false, []), new _Location("You are in a deep forest", "27 i 67.gif", "rgb(140,253,99)", true, false, false, false, [])]
+                ],
+                player: {
+                    carrying: [],
+                    vertical: 3,
+                    horizontal: 6,
+                    show: function () {
+                        var hideToDelete = document.getElementsByClassName("hiding")
+                        console.log("----")
+                        if (hideToDelete.length > 0) {
+                            while (hideToDelete[0]) {
+                                hideToDelete[0].parentNode.removeChild(hideToDelete[0]);
+                            }
+                        }
+                        var nameOfPlace = game.board[game.player.vertical][game.player.horizontal].t
+                        var pictureToShow = game.board[game.player.vertical][game.player.horizontal].p
+                        fixedpathOfHTML = ("img/" + pictureToShow)
+                        var image = document.getElementById("picture")
+                        image.setAttribute("src", fixedpathOfHTML)
+                        image.style.backgroundColor = game.board[game.player.vertical][game.player.horizontal].b
+                        var text = document.getElementById("place")
+                        text.innerText = nameOfPlace
+                        now = game.board[game.player.vertical][game.player.horizontal]
+                        var text = "You can go"
+                        if (now.west === true) {
+                            text += " west"
+                        }
+                        else {
+                            var hide = document.createElement("DIV")
+                            hide.style.position = "absolute"
+                            hide.style.width = "10px"
+                            hide.style.height = "10px"
+                            hide.setAttribute("class", "hiding")
+                            var toHide = document.getElementById("allPictures")
+                            toHide.appendChild(hide)
+                            hide.style.left = "148px"
+                            hide.style.top = "25px"
+                            hide.style.backgroundColor = "black"
+                        }
+                        if (now.east == true) {
+                            if (text != "You can go") {
+                                text += ", east"
+                            }
+                            else {
+                                text += " east"
+                            }
+                        }
+                        else {
+                            var hide = document.createElement("DIV")
+                            hide.style.position = "absolute"
+                            hide.style.width = "10px"
+                            hide.style.height = "10px"
+                            hide.setAttribute("class", "hiding")
+                            var toHide = document.getElementById("allPictures")
+                            toHide.appendChild(hide)
+                            hide.style.left = "257px"
+                            hide.style.top = "25px"
+                            hide.style.backgroundColor = "black"
+                        }
+                        if (now.north == true) {
+                            if (text != "You can go") {
+                                text += ", north"
+                            }
+                            else {
+                                text += " north"
+                            }
+                        }
+                        else {
+                            var hide = document.createElement("DIV")
+                            hide.style.position = "absolute"
+                            hide.style.width = "10px"
+                            hide.style.height = "9px"
+                            hide.setAttribute("class", "hiding")
+                            var toHide = document.getElementById("allPictures")
+                            toHide.appendChild(hide)
+                            hide.style.left = "200px"
+                            hide.style.top = "10px"
+                            hide.style.backgroundColor = "black"
+                        }
+                        if (now.south == true) {
+                            if (text != "You can go") {
+                                text += ", south"
+                            }
+                            else {
+                                text += " south"
+                            }
+                        }
+                        else {
+                            var hide = document.createElement("DIV")
+                            hide.style.position = "absolute"
+                            hide.style.width = "10px"
+                            hide.style.height = "10px"
+                            hide.setAttribute("class", "hiding")
+                            var toHide = document.getElementById("allPictures")
+                            toHide.appendChild(hide)
+                            hide.style.left = "200px"
+                            hide.style.top = "60px"
+                            hide.style.backgroundColor = "black"
+                        }
+                        var it = game.board[game.player.vertical][game.player.horizontal].items
+                        var its = []
+                        for (let i = 0; i < it.length; i++) {
+                            its.push(it[i].Aname)
+                        }
+                        if (its.length > 0) {
+                            text += "<br> You see " + its + " <br> You carrying nothing"
+                        }
+                        else {
+                            text += "<br> You see nothing <br> You carrying nothing"
+                        }
+                        var ex = document.getElementById("explanation")
+                        ex.innerHTML = text
+                    },
+                    move: function (where) {
+                        game.keys = []
+                        var west = [87, 69, 83, 84]
+                        var w = [87]
+                        var east = [69, 65, 83, 84]
+                        var e = [69]
+                        var north = [78, 79, 82, 84, 72]
+                        var n = [78]
+                        var south = [83, 79, 85, 84, 72]
+                        var s = [83]
+                        var tabOfDirections = [west, w, east, e, north, n, south, s]
+                        for (let i = 0; i < tabOfDirections.length; i++) {
+                            var good = false
+                            for (let j = 0; j < tabOfDirections[i].length; j++) {
+                                if (tabOfDirections[i][j] == where[j]) {
+                                    good = true
+                                }
+                                else {
+                                    good = false
+                                    break
+                                }
+                                if (where.length != tabOfDirections[i].length) {
+                                    good = false
+                                    break
+                                }
+                            }
+                            if (good == true) {
+                                if (where.length > 5) {
+                                    good = false
+                                }
+                            }
+                            if (good == true) {
+                                var result = ""
+                                for (let j = 0; j < tabOfDirections[i].length; j++) {
+                                    result = (result + String.fromCharCode(tabOfDirections[i][j]))
+                                }
+                                if (result == "EAST" || result == "E") {
+                                    if (now.east == true) {
+                                        game.player.horizontal += 1
+                                        game.player.show()
+                                    }
+                                }
+                                else if (result == "WEST" || result == "W") {
+                                    if (now.west == true) {
+                                        game.player.horizontal += -1
+                                        game.player.show()
+                                    }
+                                }
+                                else if (result == "NORTH" || result == "N") {
+                                    if (now.north == true) {
+                                        game.player.vertical -= 1
+                                        if (game.player.vertical == 3) {
+                                            game.player.horizontal += 3
+                                        }
+                                        game.player.show()
+                                    }
+                                }
+                                else if (result == "SOUTH" || result == "S") {
+                                    if (now.south == true) {
+                                        game.player.vertical += 1
+                                        if (game.player.vertical == 4) {
+                                            game.player.horizontal -= 3
+                                        }
+                                        game.player.show()
+                                    }
+                                }
+                                break
+                            }
+                        }
+                    }
+                },
+                f: function () {
+                    var i = document.getElementById("command")
+                    i.focus()
+                },
+                keys: [],
+                spaces: 0,
+                check: function myFunction(event) {
+                    if (event.shiftKey) {
+                        if (event.which != 16) {
+                            var x = event.which;
+                        }
+                    }
+                    else if (event.altKey) {
+                        if (event.which != 18) {
+                            var x = event.which;
+                        }
+                    }
+                    else if (event.ctrlKey) {
+                        if (event.which != 17) {
+                            var x = event.which;
+                        }
+                    }
+                    else if (event.metaKey) {
+                        if (event.which != 91) {
+                            var x = event.which;
+                        }
+                    }
+                    else {
+                        var x = event.which;
+                    }
+                    ////////////////////
+                    if (x != 9 && x != 8 && x != 32 && x != 13 && x != 20 && x != undefined) {
+                        game.keys.push(x)
+                    }
+                    else if (x == 8) {
+                        if (game.spaces - 1 < 0) {
+                            game.keys.pop()
+                        }
+                        else {
+                            game.spaces -= 1
+                        }
+                    }
+                    else if (x == 32) {
+                        if (game.keys.length == 0) {
+                            game.spaces += 1
+                        }
+                        else {
+                            game.keys.push(x)
+                        }
+                    }if (x == 13) {
+                        game.player.move(game.keys)
+                        var del = document.getElementById("command")
+                        del.parentNode.removeChild(del)
+                        del = document.createElement("input")
+                        del.setAttribute("id", "command")
+                        del.setAttribute("type", "text")
+                        del.setAttribute("onblur", "game.f()")
+                        del.setAttribute("onkeydown", "game.check(event)")
+                        document.body.appendChild(del)
+                        game.f()
+                    }
+                }
+            }
+            game.player.show()
+            game.f()
+        });
+    </script>
+</head>
+
+<body>
+    <p id="place"></p>
+    <div id="allPictures">
+        <img id="picture">
+        <img src="img/kompas.bmp" id="kompas">
+    </div>
+    <div id="boxForExplanation">
+        <p id="explanation"></p>
+    </div>
+    <p id="who"> What now?</p> <input id="command" type="text" onblur="game.f()" onkeydown="game.check(event)">
+</body>
+
+</html>
